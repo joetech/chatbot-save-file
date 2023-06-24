@@ -60,6 +60,7 @@ function addSaveButton() {
   
         filename = siblingElement.textContent.trim(); // Get the text content of the <p> element
         filename = filename.replace(':', '');
+        console.log('updated filename', filename);
       }
     }
   
