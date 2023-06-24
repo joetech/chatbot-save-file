@@ -46,18 +46,24 @@ function addSaveButton() {
     const preElement = codeParent.parentElement;
   
     let filename = "code.txt"; // Default filename
-  
+
     if (preElement) {
       let siblingElement = preElement.previousElementSibling; // Get the previous sibling element
-  
+    
       while (siblingElement && siblingElement.nodeType !== Node.ELEMENT_NODE) {
         // Traverse previous siblings until an element node is found
         siblingElement = siblingElement.previousElementSibling;
       }
-  
-      if (siblingElement && siblingElement.tagName.toLowerCase() === 'p') {
-        console.log('found the p tag with the file name');
-  
+    
+      if (
+        siblingElement &&
+        siblingElement.tagName.toLowerCase() === "p" &&
+        siblingElement.textContent.trim().length > 0 && // Ensure non-empty text content
+        siblingElement.textContent.trim().length <= 40 && // Limit filename length to 40 characters
+        /^[a-zA-Z0-9.:]+$/.test(siblingElement.textContent.trim()) // Validate filename format
+      ) {
+        console.log("found the p tag with the valid file name");
+    
         filename = siblingElement.textContent.trim(); // Get the text content of the <p> element
         filename = filename.replace(':', '');
         console.log('updated filename', filename);
