@@ -1,4 +1,3 @@
-// Function to add the "Save Code" button
 function addSaveButton() {
     // Find the last 5 instances of a button element with "copy code" text and add a "Save Code" button
     const buttons = document.querySelectorAll('button');
@@ -15,10 +14,17 @@ function addSaveButton() {
   
         const saveButton = document.createElement("button");
         saveButton.classList.add('save-code-button');
+        saveButton.style.paddingLeft = '20px';
+        saveButton.style.background = 'none';
+        saveButton.style.border = 'none';
+  
         const icon = document.createElement("img");
         icon.src = chrome.runtime.getURL("icon16.png");
+        icon.style.marginBottom = '0px';
+        icon.style.marginTop = '0px';
+        icon.style.objectFit = 'contain';
+  
         saveButton.appendChild(icon);
-        saveButton.style.paddingLeft = '20px';
         saveButton.addEventListener("click", saveCode);
   
         const parent = buttons[i].parentNode;
@@ -31,6 +37,7 @@ function addSaveButton() {
       }
     }
   }
+  
       
     
   // Function to save the code
