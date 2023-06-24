@@ -15,5 +15,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         chrome.tabs.sendMessage(tabs[0].id, { type: "addSaveButton" });
       });
     });
+  } else if (message.type === "codeFound") {
+    // Initiate the code download
+    chrome.downloads.download({
+      url: 'data:text/plain;charset=utf-8,' + encodeURIComponent(message.code),
+      filename: message.filename || "code.txt",
+      saveAs: true
+    });
   }
 });

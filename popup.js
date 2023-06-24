@@ -8,22 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add click event listener to the close button
   const closeButton = document.getElementById("closeButton");
   closeButton.addEventListener("click", function () {
-    // Close the popup
+    // Send message to the background script to close the popup
     window.close();
   });
-});
-
-// Listen for messages from the background script
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message.type === "codeFound") {
-    // Create a data URL for the code content
-    const dataUrl = 'data:text/plain;charset=utf-8,' + encodeURIComponent(message.code);
-
-    console.log('codeFound message received. Filename:', message.filename);
-    // Create a file and initiate the download
-    const downloadLink = document.createElement("a");
-    downloadLink.href = dataUrl;
-    downloadLink.download = message.filename || "code.txt";
-    downloadLink.click();
-  }
 });

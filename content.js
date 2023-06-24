@@ -25,7 +25,9 @@ function addSaveButton() {
         icon.style.objectFit = 'contain';
   
         saveButton.appendChild(icon);
-        saveButton.addEventListener("click", saveCode);
+        saveButton.addEventListener("click", function (event) {
+          saveCode(event, buttons[i]);
+        });
   
         const parent = buttons[i].parentNode;
         parent.insertBefore(saveButton, buttons[i].nextSibling);
@@ -38,28 +40,24 @@ function addSaveButton() {
     }
   }
   
-  function saveCode(event) {
+  function saveCode(event, button) {
     console.log('saving the code');
     const codeParent = event.target.closest('.bg-black'); // Find the parent element with class 'bg-black'
     const preElement = codeParent.parentElement;
-    // const preElement = parent.querySelector('pre'); // Find the <pre> element within the parent
   
     let filename = "code.txt"; // Default filename
-
-    console.log('preElement', preElement);
   
     if (preElement) {
-      const siblingElement = preElement.previousSibling; // Get the previous sibling element
-        console.log('siblingElement', siblingElement);
-      
+      let siblingElement = preElement.previousElementSibling; // Get the previous sibling element
+  
       while (siblingElement && siblingElement.nodeType !== Node.ELEMENT_NODE) {
         // Traverse previous siblings until an element node is found
-        siblingElement = siblingElement.previousSibling;
+        siblingElement = siblingElement.previousElementSibling;
       }
   
       if (siblingElement && siblingElement.tagName.toLowerCase() === 'p') {
         console.log('found the p tag with the file name');
-
+  
         filename = siblingElement.textContent.trim(); // Get the text content of the <p> element
         filename = filename.replace(':', '');
       }
@@ -68,13 +66,13 @@ function addSaveButton() {
     const codeElement = codeParent.querySelector('code'); // Find the <code> element within the parent
   
     if (codeElement) {
+      console.log('codeElement', codeElement);
       const codeContent = codeElement.textContent; // Get the content of the <code> element
   
       // Send a message to the background script with the code content and filename
       chrome.runtime.sendMessage({ type: "codeFound", code: codeContent, filename: filename });
     }
   }
-  
   
   // Listen for messages from the background script or the popup
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
