@@ -38,21 +38,44 @@ function addSaveButton() {
     }
   }
   
-      
-    
   function saveCode(event) {
     console.log('saving the code');
-    const parent = event.target.closest('.bg-black'); // Find the parent element with class 'bg-black'
-    const codeElement = parent.querySelector('code'); // Find the <code> element within the parent
+    const codeParent = event.target.closest('.bg-black'); // Find the parent element with class 'bg-black'
+    const preElement = codeParent.parentElement;
+    // const preElement = parent.querySelector('pre'); // Find the <pre> element within the parent
+  
+    let filename = "code.txt"; // Default filename
+
+    console.log('preElement', preElement);
+  
+    if (preElement) {
+      const siblingElement = preElement.previousSibling; // Get the previous sibling element
+        console.log('siblingElement', siblingElement);
+      
+      while (siblingElement && siblingElement.nodeType !== Node.ELEMENT_NODE) {
+        // Traverse previous siblings until an element node is found
+        siblingElement = siblingElement.previousSibling;
+      }
+  
+      if (siblingElement && siblingElement.tagName.toLowerCase() === 'p') {
+        console.log('found the p tag with the file name');
+
+        filename = siblingElement.textContent.trim(); // Get the text content of the <p> element
+        filename = filename.replace(':', '');
+      }
+    }
+  
+    const codeElement = codeParent.querySelector('code'); // Find the <code> element within the parent
   
     if (codeElement) {
       const codeContent = codeElement.textContent; // Get the content of the <code> element
   
-      // Send a message to the background script with the code content
-      chrome.runtime.sendMessage({ type: "codeFound", code: codeContent });
+      // Send a message to the background script with the code content and filename
+      chrome.runtime.sendMessage({ type: "codeFound", code: codeContent, filename: filename });
     }
   }
-      
+  
+  
   // Listen for messages from the background script or the popup
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === "addSaveButton") {
