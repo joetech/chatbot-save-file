@@ -40,13 +40,19 @@ function addSaveButton() {
   
       
     
-  // Function to save the code
   function saveCode(event) {
-    const codeElement = event.target.previousSibling; // Adjust this according to the element containing the code you want to save
-    const code = codeElement.textContent; // Adjust this according to the code element's retrieval method
-    chrome.runtime.sendMessage({ type: "codeFound", code: code });
-  }
+    console.log('saving the code');
+    const parent = event.target.closest('.bg-black'); // Find the parent element with class 'bg-black'
+    const codeElement = parent.querySelector('code'); // Find the <code> element within the parent
   
+    if (codeElement) {
+      const codeContent = codeElement.textContent; // Get the content of the <code> element
+  
+      // Send a message to the background script with the code content
+      chrome.runtime.sendMessage({ type: "codeFound", code: codeContent });
+    }
+  }
+    
   // Listen for messages from the background script or the popup
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === "addSaveButton") {
