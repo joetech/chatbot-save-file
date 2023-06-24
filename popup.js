@@ -4,6 +4,13 @@ console.log('popup js running...');
 document.addEventListener("DOMContentLoaded", function () {
   // Send message to the background script
   chrome.runtime.sendMessage({ type: "addSaveButton" });
+
+  // Add click event listener to the close button
+  const closeButton = document.getElementById("closeButton");
+  closeButton.addEventListener("click", function () {
+    // Close the popup
+    window.close();
+  });
 });
 
 // Listen for messages from the background script
@@ -12,7 +19,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     // Create a data URL for the code content
     const dataUrl = 'data:text/plain;charset=utf-8,' + encodeURIComponent(message.code);
 
-    console.log('codeFound message received.  Filename: ', message.filename);
+    console.log('codeFound message received. Filename:', message.filename);
     // Create a file and initiate the download
     const downloadLink = document.createElement("a");
     downloadLink.href = dataUrl;
