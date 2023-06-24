@@ -1,6 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Chatbot Save File",
+    "description": "When getting ChatGPT to write code for you, now you can add download links for all the code blocks.  Currently only works with ChatGPT and only adds links to the last 5 code blocks.  If the code block is preceded by a filename, that name will be used.  Otherwise, it will download as 'code.txt'.",
     "version": "1.0",
     "permissions": [
       "activeTab",
