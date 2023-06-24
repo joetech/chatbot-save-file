@@ -52,7 +52,7 @@ function addSaveButton() {
       chrome.runtime.sendMessage({ type: "codeFound", code: codeContent });
     }
   }
-    
+      
   // Listen for messages from the background script or the popup
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === "addSaveButton") {
