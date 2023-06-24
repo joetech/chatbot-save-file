@@ -7,8 +7,7 @@
       "activeTab",
       "downloads",
       "scripting",
-      "storage",
-      "https://*.openai.com/*"
+      "storage"
     ],
     "action": {
       "default_popup": "popup.html",
