@@ -15,9 +15,9 @@ function addSaveButton() {
   
         const saveButton = document.createElement("button");
         saveButton.classList.add('save-code-button');
-        saveButton.style.backgroundImage = `url(${chrome.runtime.getURL('icon16.png')})`;
-        saveButton.style.backgroundRepeat = 'no-repeat';
-        saveButton.style.backgroundPosition = 'left center';
+        const icon = document.createElement("img");
+        icon.src = chrome.runtime.getURL("icon16.png");
+        saveButton.appendChild(icon);
         saveButton.style.paddingLeft = '20px';
         saveButton.addEventListener("click", saveCode);
   
@@ -31,7 +31,8 @@ function addSaveButton() {
       }
     }
   }
-  
+      
+    
   // Function to save the code
   function saveCode(event) {
     const codeElement = event.target.previousSibling; // Adjust this according to the element containing the code you want to save
