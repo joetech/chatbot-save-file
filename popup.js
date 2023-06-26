@@ -9,6 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeButton = document.getElementById("closeButton");
   closeButton.addEventListener("click", function () {
     // Send message to the background script to close the popup
-    window.close();
+    chrome.runtime.sendMessage({ type: "closePopup" });
+  });
+
+  // Add click event listener to the save chat button
+  const saveChatButton = document.getElementById("saveChatButton");
+  saveChatButton.addEventListener("click", function () {
+    // Send message to the background script to save the chat contents
+    chrome.runtime.sendMessage({ type: "saveChat" });
   });
 });

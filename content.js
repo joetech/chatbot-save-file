@@ -80,11 +80,31 @@ function addSaveButton() {
       chrome.runtime.sendMessage({ type: "codeFound", code: codeContent, filename: filename });
     }
   }
-  
+
+// Function to convert HTML to Markdown using Turndown.js
+function convertHtmlToMarkdown(html) {
+  console.log('converting html to markdown');
+  const turndownService = new TurndownService();
+  return turndownService.turndown(html);
+}
+
+// Function to save the chat contents as a markdown file
+function saveChat() {
+  console.log('preparing to save chat');
+  const chatContents = document.documentElement.outerHTML;
+  const markdown = convertHtmlToMarkdown(chatContents);
+
+  // Send a message to the background script with the chat markdown
+  chrome.runtime.sendMessage({ type: "codeFound", code: markdown, filename: "markdown.md" });
+}
+
   // Listen for messages from the background script or the popup
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === "addSaveButton") {
       addSaveButton();
+    } else if (message.type === "saveChat") {
+      console.log('saveChat message received');
+      saveChat();
     }
   });
   

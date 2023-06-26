@@ -27,6 +27,18 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       filename: message.filename || "code.txt",
       saveAs: true
     });
+  } else if (message.type === "saveChat") {
+    // Save the chat contents as a markdown file
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.scripting.executeScript({
+        target: { tabId: tabs[0].id },
+        files: ["content.js", "turndown.js"]
+      }, function () {
+        console.log('initiating saveChat message...');
+        // Send message to the content script
+        chrome.tabs.sendMessage(tabs[0].id, { type: "saveChat" });
+      });
+    });
   }
 });
 
