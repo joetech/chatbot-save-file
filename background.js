@@ -15,6 +15,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         chrome.tabs.sendMessage(tabs[0].id, { type: "addSaveButton" });
       });
     });
+
+    // Mark the message as processed
+    // processedMessages[message.type] = true;
   } else if (message.type === "codeFound") {
     // Initiate the code download
     console.log('download message filename: ', message.filename);
@@ -27,6 +30,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       filename: message.filename || "code.txt",
       saveAs: true
     });
+    
+    // Mark the message as processed
+    // processedMessages[message.type] = true;
   } else if (message.type === "saveChat") {
     // Save the chat contents as a markdown file
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -39,6 +45,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         chrome.tabs.sendMessage(tabs[0].id, { type: "saveChatFile" });
       });
     });
+    
+    // Mark the message as processed
+    // processedMessages[message.type] = true;
   }
 });
 
