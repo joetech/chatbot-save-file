@@ -102,7 +102,7 @@ function saveChat() {
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === "addSaveButton") {
       addSaveButton();
-    } else if (message.type === "saveChat") {
+    } else if (message.type === "saveChatFile") {
       console.log('saveChat message received');
       saveChat();
     }

@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       }, function () {
         console.log('initiating saveChat message...');
         // Send message to the content script
-        chrome.tabs.sendMessage(tabs[0].id, { type: "saveChat" });
+        chrome.tabs.sendMessage(tabs[0].id, { type: "saveChatFile" });
       });
     });
   }
