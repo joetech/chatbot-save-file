@@ -12,13 +12,22 @@ Often, in ChatGPT, I'll ask it to create some example code or whip up a small sc
 6. Click the Extensions puzzle piece in the browser bar on the right and then click the pin to pin this extension.
 
 ## How to use:
+### To save code
 1. After you've gotten some code back from ChatGPT, click the extension to make it add download links (it will add them for the last 5 code blocks).
 2. To download a code block, click a download link (the little floppy disk). It will initiate a file download with the contents of the code block as the file and the filename that was above the block as the filename in the Save As dialog.  If there was no filename, it will default to *code.txt*.
+### To save the chat to a local HTML
+1. While in a session, click the extension.
+2. Click the *Save chat* button.
+3. Choose where to save the generated HTML file.
 
 ## Screenshots
+### Save Code
 | Before | After |
 |--------|-------|
 | ![Alt text](before.png)   | ![Alt text](after.png)  |
+
+### Save Chat html output example
+![Alt text](html-example.png)
 
 
 ## To Do:
