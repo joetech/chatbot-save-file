@@ -30,4 +30,5 @@ Often, in ChatGPT, I'll ask it to create some example code or whip up a small sc
 - If you see something to improve, feel free to create a pull request or an issue.
 
 ## Credit
-<a href="https://www.flaticon.com/free-icons/save-file" title="save file icons">Save file icons created by Flat Icons - Flaticon</a>
+- [Save file icons created by Flat Icons - Flaticon](https://www.flaticon.com/free-icons/save-file)
+- [highlightjs](https://highlightjs.org/) - used for code syntax highlighting

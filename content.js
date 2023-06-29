@@ -78,6 +78,12 @@ function saveCode(event, button) {
       element.remove();
     });
 
+    // Remove the last div from the cloned element
+    const lastDiv = clonedElement.querySelector('main').lastElementChild;
+    if (lastDiv) {
+      lastDiv.remove();
+    }
+
     // Add CSS for the 'bg-black' class to the cloned element
     const styleElement = document.createElement('style');
     styleElement.innerHTML = `
@@ -87,13 +93,43 @@ function saveCode(event, button) {
         padding: 10px;
         border-radius: 8px;
       }
-    `;
+      
+      .text-gray-500 {
+        background-color: lightgreen;
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 10px;
+      }
+      
+      .empty\\:hidden {
+        background-color: lightblue;
+        color: black;
+        padding: 7px;
+        border-radius: 5px;
+      }
+      
+      .prose p {
+        background-color: lightgrey;
+        color: black;
+        padding: 7px;
+        border-radius: 5px;
+      }
+        `;
     clonedElement.appendChild(styleElement);
+
+    // Add the code for including the Highlight.js library
+    const highlightScript = document.createElement('script');
+    highlightScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js';
+    const highlightStylesheet = document.createElement('link');
+    highlightStylesheet.rel = 'stylesheet';
+    highlightStylesheet.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/ir-black.min.css';
+    clonedElement.appendChild(highlightStylesheet);
+    clonedElement.appendChild(highlightScript);
 
     const htmlContent = clonedElement.innerHTML; // Get the HTML content of the cloned element
 
     // Send a message to the background script with the HTML content
-    chrome.runtime.sendMessage({ type: "codeFound", code: htmlContent, filename: "html.html" });
+    chrome.runtime.sendMessage({ type: "codeFound", code: htmlContent, filename: "chat.html" });
   }
 }
 
