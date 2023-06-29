@@ -42,21 +42,62 @@ function addSaveButton() {
 
 function saveCode(event, button) {
   console.log('saving the code');
-  const darkElements = document.querySelectorAll('.dark'); // Find the element with the class 'dark'
+  const darkElement = document.querySelector('.max-w-full'); // Find the element with the class 'dark'
 
-  if (darkElements) {
-    const nextElement = darkElements[1].nextElementSibling; // Get the next sibling element
+  if (darkElement) {
+    // Clone the next element to preserve the original content
+    const clonedElement = darkElement.cloneNode(true);
 
-    console.log('nextElement', nextElement);
+    // Remove all images from the cloned element
+    const images = clonedElement.querySelectorAll('img');
+    images.forEach((image) => {
+      image.remove();
+    });
 
-    if (nextElement) {
-      const htmlContent = nextElement.innerHTML; // Get the HTML content of the next element
+    // Remove all buttons from the cloned element
+    const buttons = clonedElement.querySelectorAll('button');
+    buttons.forEach((button) => {
+      button.remove();
+    });
 
-      // Send a message to the background script with the HTML content
-      chrome.runtime.sendMessage({ type: "codeFound", code: htmlContent, filename: "html.html" });
+    // Remove all SVG elements from the cloned element
+    const svgs = clonedElement.querySelectorAll('svg');
+    svgs.forEach((svg) => {
+      svg.remove();
+    });
+
+    // Remove the first child div inside the 'bg-black' div
+    const bgBlackDiv = clonedElement.querySelector('.bg-black');
+    if (bgBlackDiv && bgBlackDiv.firstElementChild) {
+      bgBlackDiv.firstElementChild.remove();
     }
+
+    // Remove elements with 'group-hover:visible' in the class
+    const visibleElements = clonedElement.querySelectorAll('[class*="group-hover:visible"]');
+    visibleElements.forEach((element) => {
+      element.remove();
+    });
+
+    // Add CSS for the 'bg-black' class to the cloned element
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = `
+      .bg-black {
+        background-color: black;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+      }
+    `;
+    clonedElement.appendChild(styleElement);
+
+    const htmlContent = clonedElement.innerHTML; // Get the HTML content of the cloned element
+
+    // Send a message to the background script with the HTML content
+    chrome.runtime.sendMessage({ type: "codeFound", code: htmlContent, filename: "html.html" });
   }
 }
+
+
 
 // Listen for messages from the background script or the popup
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
