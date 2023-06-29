@@ -42,6 +42,47 @@ function addSaveButton() {
 
 function saveCode(event, button) {
   console.log('saving the code');
+  const codeParent = event.target.closest('.bg-black'); // Find the parent element with class 'bg-black'
+  const preElement = codeParent.parentElement;
+
+  let filename = "code.txt"; // Default filename
+
+  if (preElement) {
+    let siblingElement = preElement.previousElementSibling; // Get the previous sibling element
+  
+    while (siblingElement && siblingElement.nodeType !== Node.ELEMENT_NODE) {
+      // Traverse previous siblings until an element node is found
+      siblingElement = siblingElement.previousElementSibling;
+    }
+  
+    if (
+      siblingElement &&
+      siblingElement.tagName.toLowerCase() === "p" &&
+      siblingElement.textContent.trim().length > 0 && // Ensure non-empty text content
+      siblingElement.textContent.trim().length <= 40 && // Limit filename length to 40 characters
+      /^[a-zA-Z0-9.:]+$/.test(siblingElement.textContent.trim()) // Validate filename format
+    ) {
+      console.log("found the p tag with the valid file name");
+  
+      filename = siblingElement.textContent.trim(); // Get the text content of the <p> element
+      filename = filename.replace(':', '');
+      console.log('updated filename', filename);
+    }
+  }
+
+  const codeElement = codeParent.querySelector('code'); // Find the <code> element within the parent
+
+  if (codeElement) {
+    console.log('codeElement', codeElement);
+    const codeContent = codeElement.textContent; // Get the content of the <code> element
+
+    // Send a message to the background script with the code content and filename
+    chrome.runtime.sendMessage({ type: "codeFound", code: codeContent, filename: filename });
+  }
+}
+
+function saveChat(event, button) {
+  console.log('saving the code');
   const darkElement = document.querySelector('.max-w-full'); // Find the element with the class 'dark'
 
   if (darkElement) {
@@ -141,6 +182,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     addSaveButton();
   } else if (message.type === "saveChatFile") {
     console.log('saveChat message received');
-    saveCode();
+    saveChat();
   }
 });
